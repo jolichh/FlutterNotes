@@ -13,13 +13,13 @@ A mesura que la teva aplicació pren forma, els habitants del poble es beneficia
 
 ## Característiques suggerides:
 
-- Pantalla principal: Mostrar una llista de notes amb títols i fragments de contingut.
-- Afegir nota: Una pantalla on els usuaris puguin introduir un títol i el contingut d'una nova nota.
-- Editar nota: Permetre als usuaris editar el títol i el contingut d'una nota existent.
-- Eliminar nota: Implementar la capacitat d'eliminar notes.
+- **Pantalla principal:** Mostrar una llista de notes amb títols i fragments de contingut.
+- **Afegir nota:** Una pantalla on els usuaris puguin introduir un títol i el contingut d'una nova nota.
+- **Editar nota:** Permetre als usuaris editar el títol i el contingut d'una nota existent.
+- **Eliminar nota:** Implementar la capacitat d'eliminar notes.
 
 ## Aspectes tècnics:
 
 - Utilitzar el patró Provider per gestionar l'estat de l'aplicació.
-- Emmagatzemar les notes de manera persistent de manera local emprant 'SharedPreferences'.
+- Emmagatzemar les notes de manera persistent de manera local emprant **'SharedPreferences'**.
 - Aplicar un disseny agradable i amigable per a l'usuari utilitzant widgets de Flutter i considerant la usabilitat.
