@@ -1,5 +1,7 @@
-import 'package:app_notes/note.dart';
+import 'package:app_notes/pages/note.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/nota.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +43,7 @@ class Lista {
 
 class _MyHomePageState extends State<MyHomePage> {
   //CON OBJETOS DE PRUEBA
-  List<Lista> lista = [
+  /* List<Lista> lista = [
     Lista(titulo: 'Título 1', body: 'Cuerpo 1'),
     Lista(titulo: 'Título 2', body: 'Cuerpo 2'),
   ];
@@ -50,14 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Nota()),
+        MaterialPageRoute(builder: (context) => Nota(id: -1, titulo: "XX", contenido: "aa")),
       );
     });
   }
 
   void _eliminarNota() {
     setState(() {});
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Expanded(
                 child: ListView.builder(
-              itemCount: lista.length,
+              itemCount: null,
               itemBuilder: (context, index) {
                 //muestra cada nota de la lista
                 return ListTile(
-                  title: Text(lista[index].titulo),
-                  subtitle: Text(lista[index].body),
+                  title: Text("mm"),
+                  subtitle: Text("nn"),
                   trailing: IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: null,
@@ -91,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       //boton flotante
       floatingActionButton: FloatingActionButton(
-        onPressed: _agregarNota,
+        onPressed: null,
         tooltip: 'Agregar',
         child: const Icon(Icons.add),
       ),
