@@ -1,3 +1,4 @@
+import 'package:app_notes/note.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -46,7 +47,12 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   void _agregarNota() {
-    setState(() {});
+    setState(() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Nota()),
+      );
+    });
   }
 
   void _eliminarNota() {
