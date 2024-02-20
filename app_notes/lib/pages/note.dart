@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
