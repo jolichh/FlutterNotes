@@ -63,26 +63,33 @@ class _homePageState extends State<Home> {
                               children: [
                                 TextSpan(
                                   text: '${note.getNotas()[index].titulo}\n',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight
                                           .bold, // Opciones de estilo según tus preferencias
                                       fontSize: 16,
                                       color: Colors.black),
                                 ),
                                 TextSpan(
-                                  text: '${note.getNotas()[index].contenido}',
-                                  style: TextStyle(
+                                  text: note.getNotas()[index].contenido,
+                                  style: const TextStyle(
                                       fontSize: 14, color: Colors.black),
                                 ),
                               ],
                             ),
                           ),
-                          onTap: () =>
-                              navegarNota(note.getNotas()[index], false),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () =>
-                                eliminarNota(note.getNotas()[index]),
+                          trailing: Row(
+                            children: [
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () => {
+                                        eliminarNota(note.getNotas()[index]),
+                                      }),
+                              IconButton(
+                                  onPressed: () {
+                                    navegarNota(note.getNotas()[index], false);
+                                  },
+                                  icon: const Icon(Icons.create_outlined))
+                            ],
                           ),
                         ))),
           ],
