@@ -1,8 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:provider/provider.dart';
-
 import 'nota.dart';
 
 class AgregarModificarNota extends StatefulWidget {
@@ -15,44 +16,59 @@ class AgregarModificarNota extends StatefulWidget {
 }
 
 class _AgregarModificarNota extends State<AgregarModificarNota> {
-  QuillController _controller = QuillController.basic();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    //_titleController.addListener();
     cargarNotaExistente();
   }
 
   void cargarNotaExistente() {
     final doc = Document()..insert(0, widget.nota.contenido);
-    setState(() {
+    /* setState(() {
       _controller = QuillController(
           document: doc, selection: const TextSelection.collapsed(offset: 0));
-    });
+    });*/
   }
 
   void agregarNota() {
     int id =
         Provider.of<listaDeNotas>(context, listen: false).getNotas().length;
-    String title = _controller.document.toPlainText();
-    String texto = _controller.document.toPlainText();
+    String title = _titleController.text;
+    String texto = _textController.text;
     Provider.of<listaDeNotas>(context, listen: false)
         .agregarNota(Nota(id: id, titulo: title, contenido: texto));
     Navigator.pop(context);
   }
 
   void actualizarNota() {
-    String title = _controller.document.toPlainText();
-    String texto = _controller.document.toPlainText();
+    String title = _titleController.text;
+    String texto = _textController.text;
     Provider.of<listaDeNotas>(context, listen: false)
         .updateNota(widget.nota, title, texto);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _titleController.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Título'),
+        title: TextField(
+          decoration: const InputDecoration(
+              border: InputBorder.none, hintText: 'Title...'),
+          controller: _titleController,
+        ),
       ),
       body: Center(
         child: Column(
@@ -60,13 +76,14 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: SizedBox(
-                height: 300,
+                height: 200,
                 child: TextFormField(
                   decoration: const InputDecoration(
                       border: InputBorder.none, hintText: 'Texto...'),
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   minLines: 15,
+                  controller: _textController,
                 ),
               ),
             ),
@@ -79,7 +96,8 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
                     message: 'Guardar',
                     child: ElevatedButton(
                       onPressed: () {
-                        if (widget.esNueva && !_controller.document.isEmpty()) {
+                        if (widget.esNueva &&
+                            !_textController.value.toString().isEmpty) {
                           agregarNota();
                         } else {
                           actualizarNota();
