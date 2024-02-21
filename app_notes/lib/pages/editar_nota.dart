@@ -23,21 +23,12 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
   @override
   void initState() {
     super.initState();
-    _titleController.addListener(cargarNotaExistente);
-    // cargarNotaExistente();
-  }
-
-  void _printValue() {
-    final text = _titleController.text;
-    print(text);
+    cargarNotaExistente();
   }
 
   void cargarNotaExistente() {
-    final doc = Document()..insert(0, widget.nota.contenido);
-    /* setState(() {
-      _controller = QuillController(
-          document: doc, selection: const TextSelection.collapsed(offset: 0));
-    });*/
+    _titleController.text = widget.nota.titulo;
+    _textController.text = widget.nota.contenido;
   }
 
   void agregarNota() {
@@ -103,7 +94,8 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (widget.esNueva &&
-                            _textController.value.toString().isNotEmpty) {
+                            _textController.value.toString().isNotEmpty &&
+                            _titleController.value.toString().isNotEmpty) {
                           agregarNota();
                         } else {
                           actualizarNota();
