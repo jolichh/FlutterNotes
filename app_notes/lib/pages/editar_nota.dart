@@ -1,12 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:provider/provider.dart';
 import 'nota.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: must_be_immutable
 class AgregarModificarNota extends StatefulWidget {
   Nota nota;
   bool esNueva;
@@ -38,7 +39,6 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
     String texto = _textController.text;
     Provider.of<listaDeNotas>(context, listen: false)
         .agregarNota(Nota(id: id, titulo: title, contenido: texto));
-    // Navigator.pop(context);
   }
 
   void actualizarNota() {

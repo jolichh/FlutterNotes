@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'nota.dart';
 
@@ -13,6 +16,8 @@ class listaDeNotas extends ChangeNotifier {
 
   void agregarNota(Nota nuevaNota) {
     listaNotas.add(nuevaNota);
+    nuevaNota.toString();
+    //guardarDatosCache(nuevaNota)
     notifyListeners();
   }
 
@@ -29,5 +34,18 @@ class listaDeNotas extends ChangeNotifier {
   void deleteNota(Nota nota) {
     listaNotas.remove(nota);
     notifyListeners();
+  }
+
+  Future<void> guardarDatosCache(String values) async {
+    print(values);
+    final dataNotas = await SharedPreferences.getInstance();
+    dataNotas.setString("listaNotas", values);
+  }
+
+  Future<List<Nota>> getDatosCache() async {
+    final dataNotas = await SharedPreferences.getInstance();
+    List listaNotas =
+        json.decode(dataNotas.getString("llistaArticles").toString());
+    return listaNotas.map((e) => Nota.fromJson(e)).toList();
   }
 }
