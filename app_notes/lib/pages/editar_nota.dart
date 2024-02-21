@@ -23,8 +23,13 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
   @override
   void initState() {
     super.initState();
-    //_titleController.addListener();
-    cargarNotaExistente();
+    _titleController.addListener(cargarNotaExistente);
+    // cargarNotaExistente();
+  }
+
+  void _printValue() {
+    final text = _titleController.text;
+    print(text);
   }
 
   void cargarNotaExistente() {
@@ -42,7 +47,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
     String texto = _textController.text;
     Provider.of<listaDeNotas>(context, listen: false)
         .agregarNota(Nota(id: id, titulo: title, contenido: texto));
-    Navigator.pop(context);
+    // Navigator.pop(context);
   }
 
   void actualizarNota() {
@@ -98,7 +103,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (widget.esNueva &&
-                            !_textController.value.toString().isEmpty) {
+                            _textController.value.toString().isNotEmpty) {
                           agregarNota();
                         } else {
                           actualizarNota();
