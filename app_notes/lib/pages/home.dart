@@ -37,7 +37,7 @@ class _homePageState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<listaDeNotas>(
       builder: (context, note, child) => Scaffold(
-        backgroundColor: CupertinoColors.systemBackground,
+        backgroundColor: Color.fromARGB(255, 255, 254, 235),
         floatingActionButton: FloatingActionButton(
           onPressed: createNotas,
           child: Icon(Icons.add),
@@ -58,7 +58,25 @@ class _homePageState extends State<Home> {
                 children: List.generate(
                     note.getNotas().length,
                     (index) => CupertinoListTile(
-                          title: Text(note.getNotas()[index].contenido),
+                          title: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '${note.getNotas()[index].titulo}\n',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight
+                                          .bold, // Opciones de estilo según tus preferencias
+                                      fontSize: 16,
+                                      color: Colors.black),
+                                ),
+                                TextSpan(
+                                  text: '${note.getNotas()[index].contenido}',
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
                           onTap: () =>
                               navegarNota(note.getNotas()[index], false),
                           trailing: IconButton(

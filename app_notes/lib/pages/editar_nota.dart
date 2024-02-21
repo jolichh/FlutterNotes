@@ -6,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:provider/provider.dart';
 import 'nota.dart';
 
+// ignore: must_be_immutable
 class AgregarModificarNota extends StatefulWidget {
   Nota nota;
   bool esNueva;
