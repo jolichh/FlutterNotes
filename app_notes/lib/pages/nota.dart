@@ -5,10 +5,12 @@ class Nota {
 
   Nota({required this.id, required this.titulo, required this.contenido});
 
-  Nota.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    titulo = json['titulo'];
-    contenido = json['contenido'];
+  factory Nota.fromJson(Map<String, dynamic> json) {
+    return Nota(
+      id: json['id'] as int,
+      titulo: json['titulo'] as String,
+      contenido: json['contenido'] as String,
+    );
   }
 
   String toJson() {
@@ -16,7 +18,7 @@ class Nota {
     if (id != null) {
       data += '"id": $id, ';
     }
-    data += '"titulo": "$titulo", "contenido": $contenido}';
+    data += '"titulo": "$titulo", "contenido": "$contenido"}';
     return data;
   }
 }

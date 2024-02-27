@@ -1,12 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:convert';
-
 import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'nota.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AgregarModificarNota extends StatefulWidget {
   Nota nota;

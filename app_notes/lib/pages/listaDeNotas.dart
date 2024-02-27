@@ -1,51 +1,81 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'nota.dart';
 
 class listaDeNotas extends ChangeNotifier {
-  List<Nota> listaNotas = [
-    Nota(id: 1, titulo: 'Título 1', contenido: 'Cuerpo 1')
-  ];
+  List<Nota> listaNotas = [];
+
+  listaDeNotas() {
+    recuperarListaNotas().then((listNotaRec) => {
+          if (listNotaRec.isNotEmpty)
+            {
+              listaNotas = listNotaRec,
+              notifyListeners(),
+            }
+          else
+            {
+              agregarNota(Nota(
+                  id: 0,
+                  titulo: "My first note",
+                  contenido: "Un dia soleado en barcelona"))
+            }
+        });
+  }
 
   List<Nota> getNotas() {
     return this.listaNotas;
   }
 
-  void agregarNota(Nota nuevaNota) {
+  Future<void> agregarNota(Nota nuevaNota) async {
     listaNotas.add(nuevaNota);
-    nuevaNota.toString();
-    //guardarDatosCache(nuevaNota)
+    guardarListaNotas();
     notifyListeners();
   }
 
-  void updateNota(Nota notaAct, String titulo, String texto) {
+  Future<void> updateNota(Nota notaAct, String titulo, String texto) async {
     for (int i = 0; i < listaNotas.length; i++) {
       if (listaNotas[i].id == notaAct.id) {
         listaNotas[i].titulo = titulo;
         listaNotas[i].contenido = texto;
       }
     }
+    guardarListaNotas();
     notifyListeners();
   }
 
-  void deleteNota(Nota nota) {
+  Future<void> deleteNota(Nota nota) async {
     listaNotas.remove(nota);
+    guardarListaNotas();
     notifyListeners();
   }
 
-  Future<void> guardarDatosCache(String values) async {
-    print(values);
-    final dataNotas = await SharedPreferences.getInstance();
-    dataNotas.setString("listaNotas", values);
+  Future<void> guardarListaNotas() async {
+    final jsonData = listaToJson().toString();
+    final prefs = await SharedPreferences.getInstance();
+    print(jsonData);
+    await prefs.setString('listadoNotas', jsonData);
   }
 
-  Future<List<Nota>> getDatosCache() async {
-    final dataNotas = await SharedPreferences.getInstance();
-    List listaNotas =
-        json.decode(dataNotas.getString("llistaArticles").toString());
-    return listaNotas.map((e) => Nota.fromJson(e)).toList();
+  Future<void> vaciarSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('listadoNotas');
+  }
+
+  Future<List<Nota>> recuperarListaNotas() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonData = prefs.getString('listadoNotas');
+    List<dynamic> jsonList = jsonDecode(jsonData!);
+    List<Nota> listaDeNotas =
+        jsonList.map((json) => Nota.fromJson(json)).toList();
+    return listaDeNotas;
+  }
+
+  List<String> listaToJson() {
+    List<String> list = [];
+    for (Nota nota in listaNotas) {
+      list.add(nota.toJson());
+    }
+    return list;
   }
 }
