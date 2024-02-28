@@ -4,9 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'nota.dart';
 
 class listaDeNotas extends ChangeNotifier {
-  List<Nota> listaNotas = [];
+  List<Nota> listaNotas = [
+    Nota(
+        id: 0,
+        titulo: "My first note",
+        contenido: "Un dia soleado en barcelona")
+  ];
 
-  listaDeNotas() {
+  /*listaDeNotas() {
     recuperarListaNotas().then((listNotaRec) => {
           if (listNotaRec.isNotEmpty)
             {
@@ -16,12 +21,12 @@ class listaDeNotas extends ChangeNotifier {
           else
             {
               agregarNota(Nota(
-                  id: 0,
+                  id: 1,
                   titulo: "My first note",
                   contenido: "Un dia soleado en barcelona"))
             }
         });
-  }
+  }*/
 
   List<Nota> getNotas() {
     return this.listaNotas;
