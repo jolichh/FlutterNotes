@@ -68,7 +68,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: SizedBox(
-                height: 200,
+                height: 500,
                 child: TextFormField(
                   decoration: const InputDecoration(
                       border: InputBorder.none, hintText: 'Texto...'),

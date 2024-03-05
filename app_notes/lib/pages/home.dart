@@ -24,6 +24,16 @@ class _HomePageState extends State<Home> {
     Provider.of<listaDeNotas>(context, listen: false).deleteNota(nota);
   }
 
+  String gestionarTexto(String texto) {
+    if (texto.length > 35) {
+      // Si el texto supera los 15 caracteres, mostrar solo los primeros 15
+      return texto.substring(0, 35) + '...';
+    } else {
+      // Si el texto tiene 15 caracteres o menos, mostrar el texto completo
+      return texto;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<listaDeNotas>(
@@ -71,7 +81,8 @@ class _HomePageState extends State<Home> {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: snapshot.data![index].contenido,
+                                      text: gestionarTexto(
+                                          snapshot.data![index].contenido),
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.black,
