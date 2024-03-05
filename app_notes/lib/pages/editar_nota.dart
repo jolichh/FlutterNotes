@@ -30,12 +30,10 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
   }
 
   void agregarNota() {
-    int id =
-        Provider.of<listaDeNotas>(context, listen: false).getNotas().length;
     String title = _titleController.text;
     String texto = _textController.text;
     Provider.of<listaDeNotas>(context, listen: false)
-        .agregarNota(Nota(id: id, titulo: title, contenido: texto));
+        .agregarNota(Nota(titulo: title, contenido: texto));
   }
 
   void actualizarNota() {

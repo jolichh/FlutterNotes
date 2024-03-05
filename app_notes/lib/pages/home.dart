@@ -12,13 +12,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomePageState extends State<Home> {
-  void createNotas() {
-    int idNuevo =
-        Provider.of<listaDeNotas>(context, listen: false).getNotas().length;
-    Nota newNota = Nota(id: idNuevo, titulo: '', contenido: '');
-    navegarNota(newNota, true);
-  }
-
   void navegarNota(Nota nota, bool esNueva) {
     Navigator.push(
       context,
@@ -29,7 +22,7 @@ class _HomePageState extends State<Home> {
     );
   }
 
-  void eliminarNota(Nota nota) {
+  void eliminarNota(Nota nota) async {
     Provider.of<listaDeNotas>(context, listen: false).deleteNota(nota);
   }
 
@@ -37,16 +30,19 @@ class _HomePageState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<listaDeNotas>(
       builder: (context, note, child) => Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 254, 235),
+        backgroundColor: const Color.fromARGB(255, 255, 254, 235),
         floatingActionButton: FloatingActionButton(
-          onPressed: createNotas,
-          child: Icon(Icons.add),
+          onPressed: () {
+            Nota newNota = Nota(titulo: '', contenido: '');
+            navegarNota(newNota, true);
+          },
+          child: const Icon(Icons.add),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Header
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(20.0),
               child: Text(
                 'My Notes',
@@ -55,50 +51,62 @@ class _HomePageState extends State<Home> {
             ),
             // Lista de notas
             Expanded(
-              child: ListView.builder(
-                itemCount: note.getNotas().length,
-                itemBuilder: (context, index) => Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                  child: ListTile(
-                    title: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: '${note.getNotas()[index].titulo}\n',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: Colors.black,
+                child: FutureBuilder<List<Nota>>(
+                    future: note.getNotas(),
+                    builder: (context, snapshot) {
+                      print("home");
+                      print(snapshot);
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) => Card(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 16),
+                            child: ListTile(
+                              title: RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '${snapshot.data![index].titulo}\n',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: snapshot.data![index].contenido,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () =>
+                                        eliminarNota(snapshot.data![index]),
+                                  ),
+                                  IconButton(
+                                    onPressed: () => navegarNota(
+                                        snapshot.data![index], false),
+                                    icon: const Icon(Icons.create_outlined),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          TextSpan(
-                            text: note.getNotas()[index].contenido,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () => eliminarNota(note.getNotas()[index]),
-                        ),
-                        IconButton(
-                          onPressed: () =>
-                              navegarNota(note.getNotas()[index], false),
-                          icon: const Icon(Icons.create_outlined),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("Error:${snapshot.error}");
+                      }
+                      return CircularProgressIndicator();
+                    })),
           ],
         ),
       ),

@@ -5,31 +5,22 @@ import 'nota.dart';
 
 class listaDeNotas extends ChangeNotifier {
   List<Nota> listaNotas = [
-    Nota(
-        id: 0,
-        titulo: "My first note",
-        contenido: "Un dia soleado en barcelona")
+    Nota(titulo: "My first note", contenido: "My first day at work")
   ];
 
-  /* listaDeNotas() {
-    recuperarListaNotas().then((listNotaRec) => {
-          if (listNotaRec.isNotEmpty)
-            {
-              listaNotas = listNotaRec,
-              notifyListeners(),
-            }
-          else
-            {
-              agregarNota(Nota(
-                  id: 0,
-                  titulo: "My first note",
-                  contenido: "Un dia soleado en barcelona"))
-            }
-        });
-  }*/
+  Future<List<Nota>> getNotas() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String listNotas = prefs.getString('cacheDatos').toString();
+    print("get");
+    print(listNotas);
 
-  List<Nota> getNotas() {
-    return this.listaNotas;
+    if (listNotas == 'null') {
+      return this.listaNotas;
+    }
+
+    final List result = jsonDecode(listNotas);
+    this.listaNotas = result.map((e) => Nota.fromJson(e)).toList();
+    return listaNotas;
   }
 
   Future<void> agregarNota(Nota nuevaNota) async {
@@ -40,7 +31,7 @@ class listaDeNotas extends ChangeNotifier {
 
   Future<void> updateNota(Nota notaAct, String titulo, String texto) async {
     for (int i = 0; i < listaNotas.length; i++) {
-      if (listaNotas[i].id == notaAct.id) {
+      if (listaNotas[i] == notaAct) {
         listaNotas[i].titulo = titulo;
         listaNotas[i].contenido = texto;
       }
@@ -58,22 +49,9 @@ class listaDeNotas extends ChangeNotifier {
   Future<void> guardarListaNotas() async {
     final jsonData = listaToJson().toString();
     final prefs = await SharedPreferences.getInstance();
+    print("guardando");
     print(jsonData);
-    await prefs.setString('listadoNotas', jsonData);
-  }
-
-  Future<void> vaciarSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('listadoNotas');
-  }
-
-  Future<List<Nota>> recuperarListaNotas() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonData = prefs.getString('listadoNotas');
-    List<dynamic> jsonList = jsonDecode(jsonData!);
-    List<Nota> listaDeNotas =
-        jsonList.map((json) => Nota.fromJson(json)).toList();
-    return listaDeNotas;
+    prefs.setString('cacheDatos', jsonData);
   }
 
   List<String> listaToJson() {
