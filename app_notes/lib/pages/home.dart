@@ -1,8 +1,6 @@
 import 'package:app_notes/pages/listaDeNotas.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'editar_nota.dart';
 import 'nota.dart';
 
@@ -54,8 +52,6 @@ class _HomePageState extends State<Home> {
                 child: FutureBuilder<List<Nota>>(
                     future: note.getNotas(),
                     builder: (context, snapshot) {
-                      print("home");
-                      print(snapshot);
                       if (snapshot.hasData) {
                         return ListView.builder(
                           itemCount: snapshot.data!.length,
@@ -105,7 +101,7 @@ class _HomePageState extends State<Home> {
                       } else if (snapshot.hasError) {
                         return Text("Error:${snapshot.error}");
                       }
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     })),
           ],
         ),

@@ -83,7 +83,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
             Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Tooltip(
                     message: 'Guardar',
                     child: ElevatedButton(
@@ -97,7 +97,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
                         }
                         Navigator.pop(context);
                       },
-                      child: Text('Save'),
+                      child: const Text('Save'),
                     ),
                   ),
                 ))
