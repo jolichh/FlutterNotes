@@ -58,7 +58,7 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
       appBar: AppBar(
         title: TextField(
           decoration: const InputDecoration(
-              border: InputBorder.none, hintText: 'Title...'),
+              border: InputBorder.none, hintText: 'Título...'),
           controller: _titleController,
         ),
       ),
@@ -67,40 +67,43 @@ class _AgregarModificarNota extends State<AgregarModificarNota> {
           children: [
             Padding(
               padding: const EdgeInsets.all(18.0),
-              child: SizedBox(
-                height: 500,
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                      border: InputBorder.none, hintText: 'Texto...'),
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  minLines: 15,
-                  controller: _textController,
-                ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Empieza a escribir...'),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                minLines: 15,
+                controller: _textController,
               ),
             ),
             const Spacer(),
             Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Tooltip(
-                    message: 'Guardar',
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (widget.esNueva &&
-                            _textController.value.toString().isNotEmpty &&
-                            _titleController.value.toString().isNotEmpty) {
-                          agregarNota();
-                        } else {
-                          actualizarNota();
-                        }
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Save'),
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Tooltip(
+                  message: 'Guardar',
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.amber,
+                      foregroundColor: Colors.black,
                     ),
+                    onPressed: () {
+                      if (widget.esNueva &&
+                          _textController.value.toString().isNotEmpty &&
+                          _titleController.value.toString().isNotEmpty) {
+                        agregarNota();
+                      } else {
+                        actualizarNota();
+                      }
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Save'),
                   ),
-                ))
+                ),
+              ),
+            )
           ],
         ),
       ),

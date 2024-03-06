@@ -1,5 +1,6 @@
 import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:provider/provider.dart';
 import 'editar_nota.dart';
 import 'nota.dart';
@@ -38,13 +39,16 @@ class _HomePageState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<listaDeNotas>(
       builder: (context, note, child) => Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 254, 235),
+        backgroundColor: Color.fromARGB(255, 234, 229, 229),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Nota newNota = Nota(titulo: '', contenido: '');
             navegarNota(newNota, true);
           },
           child: const Icon(Icons.add),
+          shape: CircleBorder(),
+          backgroundColor: Colors.amber,
+          tooltip: 'Crear nota',
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,9 +56,18 @@ class _HomePageState extends State<Home> {
             // Header
             const Padding(
               padding: EdgeInsets.all(20.0),
-              child: Text(
-                'My Notes',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.notes_sharp,
+                    size: 30,
+                  ),
+                  SizedBox(width: 15),
+                  Text(
+                    'My Notes',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
             // Lista de notas
@@ -69,6 +82,9 @@ class _HomePageState extends State<Home> {
                             margin: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 16),
                             child: ListTile(
+                              shape: CircleBorder(),
+                              contentPadding: EdgeInsets.all(16.0),
+                              tileColor: Colors.white60,
                               title: RichText(
                                 text: TextSpan(
                                   children: [
