@@ -3,8 +3,6 @@ import 'package:app_notes/pages/listaDeNotas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/nota.dart';
-
 void main() {
   runApp(const MyApp());
 }
